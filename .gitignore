@@ -1,3 +1,4 @@
 *.pyc
 __pycache__
-venvdb.sqlite3 
+venv
+db.sqlite3 
