@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'lmn'
+    'lmn',
+    'search_app',
 ]
 
 MIDDLEWARE = [
@@ -56,7 +57,8 @@ ROOT_URLCONF = 'lmnop_project.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR,'lmn','templates/'), os.path.join(BASE_DIR,'search_app','templates/'),]
+        ,
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
