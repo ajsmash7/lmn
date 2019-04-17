@@ -15,7 +15,7 @@ def get_event(keyword):
 
         data = requests.get(url, params=query).json()
         res= data['events']['event']
-        # print(data['events']['event'][0]['performers']['performer']['name'])
+        # print(res[0]['performers']['performer']['name'])
 
 
     except requests.exceptions.HTTPError as http_error:
