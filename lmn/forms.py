@@ -22,6 +22,7 @@ class NewNoteForm(forms.ModelForm):
 
 class EditNoteForm(UserChangeForm):
 
+
     class Meta:
         model = Note
         fields = ('title', 'text')
@@ -36,10 +37,12 @@ class EditNoteForm(UserChangeForm):
 
 
 class EditProfileForm(UserChangeForm):
+    password1 = forms.CharField(label='password', widget=forms.PasswordInput)
+    password2 = forms.CharField(label='re-enter password', widget=forms.PasswordInput)
 
     class Meta:
         model = User
-        fields = ('username', 'first_name', 'last_name', 'email')
+        fields = ('username', 'first_name', 'last_name', 'email', 'password1', 'password2')
 
     def save(self, commit=True):
         user = super(EditProfileForm, self).save(commit=False)
@@ -55,6 +58,8 @@ class EditProfileForm(UserChangeForm):
 
 
 class UserRegistrationForm(UserCreationForm):
+    password1 = forms.CharField(label='password', widget=forms.PasswordInput)
+    password2 = forms.CharField(label='re-enter password', widget=forms.PasswordInput)
 
     class Meta:
         model = User
