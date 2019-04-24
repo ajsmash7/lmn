@@ -24,6 +24,7 @@ def new_note(request, show_pk):
 
             note.show = show
             note.posted_date = timezone.now()
+            note.photo =
             note.save()
             return redirect('lmn:note_detail', note_pk=note.pk)
 
