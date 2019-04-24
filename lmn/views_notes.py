@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 
 from .models import Venue, Artist, Note, Show
-from .forms import VenueSearchForm, NewNoteForm, ArtistSearchForm, UserRegistrationForm
+from .forms import VenueSearchForm, NewNoteForm, ArtistSearchForm, UserRegistrationForm, EditNoteForm
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -15,12 +15,13 @@ def new_note(request, show_pk):
 
     show = get_object_or_404(Show, pk=show_pk)
 
-    if request.method == 'POST' :
+    if request.method == 'POST':
 
-        form = NewNoteForm(request.POST)
+        form = NewNoteForm(request.POST, instance=request.user)
         if form.is_valid():
             note = form.save(commit=False)
             note.user = request.user
+
             note.show = show
             note.posted_date = timezone.now()
             note.save()
@@ -51,3 +52,27 @@ def notes_for_show(request, show_pk):   # pk = show pk
 def note_detail(request, note_pk):
     note = get_object_or_404(Note, pk=note_pk)
     return render(request, 'lmn/notes/note_detail.html' , {'note' : note })
+
+@login_required
+def edit_note_detail(request, note_pk):
+    note = get_object_or_404(Note, pk=note_pk)
+
+    if note.user.pk != request.user:
+        raise PermissionError("User Is not Authorized to change this note")
+
+    if request.method == 'POST':
+
+        form = EditNoteForm(request.POST, instance=note)
+        if form.is_valid():
+            form.save()
+            return redirect('lmn:note_detail', note_pk)
+
+        else:
+            message = 'Please check the changes you entered'
+            args = {'form': form, 'message': message}
+            return render(request, 'lmn/notes/edit_note_detail.html', args)
+
+    else:
+        form = EditNoteForm(instance=request.user)
+        args = {'form': form}
+        return render(request, 'lmn/notes/edit_note_detail.html', args)

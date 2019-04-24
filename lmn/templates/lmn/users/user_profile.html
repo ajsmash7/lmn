@@ -9,6 +9,14 @@ Text truncated to 200 characters. -->
 
 <h2 id='username_notes'>{{ user.username }}'s notes</h2>
 
+{% if user.username %}
+
+<form action="{% url 'lmn:edit_user_profile' %}">
+  <input id="editprofile_form" type='submit' value='Edit Profile'>
+</form>
+
+{% endif %}
+
 {% for note in notes %}
 
 <div class='note' id="note_{{ note.pk }}">
@@ -23,6 +31,7 @@ Text truncated to 200 characters. -->
     <p id='no_records'>No notes.</p>
 
 {% endfor %}
+
 
 
 {% endblock %}
