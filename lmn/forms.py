@@ -37,12 +37,10 @@ class EditNoteForm(UserChangeForm):
 
 
 class EditProfileForm(UserChangeForm):
-    # password1 = <a href="p">this form</a>.
-    # password2 = forms.CharField(label='re-enter password', widget=forms.PasswordInput)
 
     class Meta:
         model = User
-        fields = ('username', 'first_name', 'last_name', 'email')
+        fields = ('username', 'first_name', 'last_name', 'email', 'password')
 
     def save(self, commit=True):
         user = super(EditProfileForm, self).save(commit=False)

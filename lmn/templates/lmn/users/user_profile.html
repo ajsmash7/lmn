@@ -24,5 +24,12 @@ Text truncated to 200 characters. -->
 
 {% endfor %}
 
+{% if user.isAuthenticated %}
+
+<form action="{% url 'lmn:edit_user_profile' %}">
+  <input id="editprofile_form" type='submit' value='Edit Profile'>
+</form>
+
+{% endif %}
 
 {% endblock %}
