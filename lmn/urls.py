@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views, views_artists, views_venues, views_notes, views_users
-
+from rest_framework.urlpatterns import format_suffix_patterns
 from django.contrib.auth import views as auth_views
 
 
@@ -9,6 +9,8 @@ app_name = 'lmn'
 urlpatterns = [
 
     path('', views.homepage, name='homepage'),
+    path('', views.get_api_data),
+    path('/<int:pk>/', views.show_detail),
 
     # Venue-related
     path('venues/list/', views_venues.venue_list, name='venue_list'),
@@ -40,3 +42,4 @@ urlpatterns = [
     path('register/', views_users.register, name='register'),
 
 ]
+urlpatterns = format_suffix_patterns(urlpatterns)

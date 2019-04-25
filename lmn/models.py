@@ -38,8 +38,8 @@ class Venue(models.Model):
 class Show(models.Model):
     show_id = models.CharField(max_length=200, blank=False, unique=True)
     show_date = models.DateTimeField(blank=False)
-    artist = models.ForeignKey(Artist, on_delete=models.CASCADE)
-    venue = models.ForeignKey(Venue, on_delete=models.CASCADE)
+    artist = models.ForeignKey(Artist, related_name='show_headliner', on_delete=models.CASCADE)
+    venue = models.ForeignKey(Venue, related_name='show_venue', on_delete=models.CASCADE)
 
     def __str__(self):
         return 'Show with artist {} at {} on {}'.format(self.artist, self.venue, self.show_date)
