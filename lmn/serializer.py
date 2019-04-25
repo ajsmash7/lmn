@@ -54,12 +54,11 @@ class VenueSerializer(serializers.Serializer):
 class ShowSerializer(serializers.Serializer):
     show_id = serializers.CharField(max_length=200, allow_blank=False)
     show_date = serializers.DateTimeField()
-    artist = serializers.PrimaryKeyRelatedField(many=True, queryset=Artist.object.all())
+    artist = serializers.PrimaryKeyRelatedField(many=True, queryset=Artist.name.all())
     venue = serializers.PrimaryKeyRelatedField(many=True, queryset=Venue.object.all())
 
     class Meta:
         model = Show
-
 
 
     def create(self, validated_data):
@@ -68,9 +67,10 @@ class ShowSerializer(serializers.Serializer):
         """
         return Show.objects.create(**validated_data)
 
-    def update(self, instance, validated_data):
+    def update(self, instance: Show, validated_data):
         """
         Update and return current Venue instance with data, if existing.
+        :type instance: Show
         """
         instance.name = validated_data.get('name', instance.name)
         instance.city = validated_data.get('city', instance.city)
@@ -78,11 +78,10 @@ class ShowSerializer(serializers.Serializer):
         instance.save()
         return instance
 
+ class UserSerializer(serializers.ModelSerializer):
+    user_notes = serializers.PrimaryKeyRelatedField(many=True, queryset=Note.objects.all())
 
-    class UserSerializer(serializers.ModelSerializer):
-        user_notes = serializers.PrimaryKeyRelatedField(many=True, queryset=Note.objects.all())
-
-        class Meta:
-            model = User
-            fields = ('id', 'username', 'user_notes')
+    class Meta:
+        model = User
+        fields = ('id', 'username', 'user_notes')
 
