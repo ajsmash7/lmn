@@ -7,6 +7,9 @@ class ArtistSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)
     name = serializers.CharField(required=True, allow_blank=False, max_length=200)
 
+    class Meta:
+        model = Artist
+
     def create(self, validated_data):
         """
         Create and return a new Artist instance with the validated data.
@@ -28,6 +31,8 @@ class VenueSerializer(serializers.Serializer):
     city = serializers.CharField(max_length=200, allow_blank=False)
     state = serializers.CharField(max_length=2, allow_blank=False)
 
+    class Meta:
+        model = Venue
 
     def create(self, validated_data):
         """
@@ -52,7 +57,8 @@ class ShowSerializer(serializers.Serializer):
     artist = serializers.PrimaryKeyRelatedField(many=True, queryset=Artist.object.all())
     venue = serializers.PrimaryKeyRelatedField(many=True, queryset=Venue.object.all())
 
-
+    class Meta:
+        model = Show
 
 
 
@@ -78,5 +84,5 @@ class ShowSerializer(serializers.Serializer):
 
         class Meta:
             model = User
-            fields = ('id', 'username', 'snippets')
+            fields = ('id', 'username', 'user_notes')
 
