@@ -54,8 +54,8 @@ class VenueSerializer(serializers.Serializer):
 class ShowSerializer(serializers.Serializer):
     show_id = serializers.CharField(max_length=200, allow_blank=False)
     show_date = serializers.DateTimeField()
-    artist = serializers.PrimaryKeyRelatedField(many=True, queryset=Artist.name.all())
-    venue = serializers.PrimaryKeyRelatedField(many=True, queryset=Venue.object.all())
+    artist = serializers.PrimaryKeyRelatedField(many=True, queryset=Artist.objects.all())
+    venue = serializers.PrimaryKeyRelatedField(many=True, queryset=Venue.objects.all())
 
     class Meta:
         model = Show
@@ -78,7 +78,7 @@ class ShowSerializer(serializers.Serializer):
         instance.save()
         return instance
 
- class UserSerializer(serializers.ModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
     user_notes = serializers.PrimaryKeyRelatedField(many=True, queryset=Note.objects.all())
 
     class Meta:
