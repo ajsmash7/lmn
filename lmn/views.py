@@ -6,11 +6,16 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from .models import Show
 from .serializer import ShowSerializer
+from lmnop_project.settings import api_key
+
+import requests
 
 
 def homepage(request):
+
     return render(request, 'lmn/home.html')
 
+baseURL = ('http://api.eventful.com/json/events/search?app_key='+ api_key + '&q=music&location=Minneapolis')
 
 @api_view(['GET', 'POST'])
 def get_api_data(request, format=None):
@@ -23,7 +28,10 @@ def get_api_data(request, format=None):
         return Response(serializer.data)
 
     elif request.method == 'POST':
-        serializer = ShowSerializer(data=request.data)
+        form = SubmitAPISearch(request.POST)
+        r = requests.get(baseURL + '&keywords=' + request)
+        json = r.json()
+        serializer = ShowSerializer(data=json)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)

@@ -78,6 +78,7 @@ class ShowSerializer(serializers.Serializer):
         instance.save()
         return instance
 
+
 class UserSerializer(serializers.ModelSerializer):
     user_notes = serializers.PrimaryKeyRelatedField(many=True, queryset=Note.objects.all())
 
