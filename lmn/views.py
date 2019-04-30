@@ -15,11 +15,10 @@ def homepage(request):
 
     return render(request, 'lmn/home.html')
 
-baseURL = ('http://api.eventful.com/json/events/search?app_key='+ api_key + '&q=music&location=Minneapolis')
+#baseURL = ('http://api.eventful.com/json/events/search?app_key='+ api_key + '&q=music&location=Minneapolis')
 
-@api_view(['GET', 'POST'])
-def get_api_data(request, format=None):
-    '''Get all show events from api'''
+#@api_view(['GET', 'POST'])
+'''def get_api_data(request, format=None):
 
     if request.method == 'GET':
         events = Show.objects.all()
@@ -62,4 +61,4 @@ def show_detail(request, show_pk, format=None):
 
     elif request.method == 'DELETE':
         event.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response(status=status.HTTP_204_NO_CONTENT)'''
