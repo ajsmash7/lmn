@@ -25,5 +25,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),    #Admin site
 
     path('', include('lmn.urls') ),
+    path('search/', include('search_app.urls')),
 
 ]
