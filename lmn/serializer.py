@@ -69,10 +69,11 @@ class ShowSerializer(serializers.Serializer):
 
     def update(self, instance: Show, validated_data):
         """
-        Update and return current Venue instance with data, if existing.
+        Update and return current Show instance with data, if existing.
         :type instance: Show
         """
-        instance.name = validated_data.get('name', instance.name)
+        instance.artist = validated_data.get('artist', instance.artist)
+        instance.venue = validated_data.get('venue', instance.venue)
         instance.city = validated_data.get('city', instance.city)
         instance.state = validated_data.get('state', instance.state)
         instance.save()

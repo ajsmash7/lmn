@@ -19,21 +19,16 @@ from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.views.generic.edit import CreateView
 from django.contrib.auth.forms import UserCreationForm
-from lmn import viewsets
-from rest_framework.routers import DefaultRouter
 
-router = DefaultRouter()
-router.register(r'shows', viewsets.ShowViewSet)
+
+
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),    #Admin site
 
-    path('api/', include('rest_framework.urls')), # BrowsableApi url
+    path('api/', include('router.urls')),
 
     path('', include('lmn.urls')),
-
-
-    path('', include('router.urls')),
 
 ]
