@@ -1,0 +1,37 @@
+{% extends "lmn/base.html" %}
+{% load staticfiles %}
+{% block metadescription %}
+
+{% endblock %}
+{% block title %}
+	Search - LMNOP
+{% endblock %}
+{% block content %}
+    <div>
+        <p>You have searched for: <b>"{{ query }}"</b></p>
+    </div>
+    <div>
+		<div>
+			{% for event in events_data %}
+				<div>
+					<div>
+
+						<div>
+{#                            <h1>{{ event.show }}</h1>#}
+							<h4>{{event.date}}</h4>
+                            <h5>{{ event.artist }}</h5>
+                            <h5>{{ event.venue }}</h5>
+
+						</div>
+					</div>
+				</div>
+                {% empty %}
+                <div>
+                <p>0 Results Found</p>
+                </div>
+			{% endfor %}
+		</div>
+    </div>
+
+
+{% endblock %}
