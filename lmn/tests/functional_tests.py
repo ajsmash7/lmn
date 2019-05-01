@@ -304,7 +304,7 @@ class BrowseVenues(LiveServerTestCase):
         # assert list of venues that venue has played at is shown, most recent first
         # Should be show pk = 2 venue 1 first ave on 2017-01-02 , show pk = 1 venue 2, turf club on 2016-11-02
         # Assert a link to add notes is shown for each show
-        expected_shows =  [ { "pk" : 4 , "show_date" : "Jan. 21, 2017", "artist" : 'ACDC' },
+        expected_shows = [{"pk" : 4 , "show_date" : "Jan. 21, 2017", "artist" : 'ACDC' },
         { "pk" : 1 , "show_date" : "Nov. 4, 2016", "artist" : 'REM' } ]
 
         show_divs = self.browser.find_elements_by_class_name('show')

@@ -8,6 +8,9 @@ from django.contrib.auth.models import User
 
 import re, datetime
 from datetime import timezone
+from rest_framework import status
+
+from rest_framework.test import RequestsClient, APITestCase, APIClient
 
 # TODO verify correct templates are rendered.
 
@@ -446,6 +449,10 @@ class TestNotes(TestCase):
         response = self.client.get(reverse('lmn:new_note', kwargs={'show_pk':1}))
         self.assertTemplateUsed(response, 'lmn/notes/new_note.html')
 
+        # edit a note
+        response = self.client.get(reverse('lmn:edit_note_detail.html', kwargs={'note_pk':1}))
+        self.assertTemplateUsed(response, 'lmn/notes/edit_note_detail.html')
+
 
 
 class TestUserAuthentication(TestCase):
@@ -473,3 +480,17 @@ class TestUserAuthentication(TestCase):
 
         self.assertRedirects(response, reverse('lmn:homepage'))   # FIXME Fix code to redirect to last page user was on before registration.
         self.assertContains(response, 'sam12345')  # Homepage has user's name on it
+
+
+class TestAppAPI(APITestCase):
+    """Testing suite for api views"""
+
+    def test_api_does_post(self):
+        # add an api request client
+        client = RequestsClient()
+        # post a show to the api client
+        response = client.post('/api/show/', json={'show_id': 1, 'show_date': '01-21-2017 07:00 PM', 'artist': {'name': 'Tom Petty'},
+                     'venue': {'name': 'First Avenue', 'city': 'Minneapolis', 'state': 'MN'}})
+        # assert that the status is 201 created
+        assert response.status_code == 201
+
