@@ -78,7 +78,7 @@ def edit_note_detail(request, note_pk):
 
     if request.method == 'POST':
 
-        form = EditNoteForm(request.POST, instance=note)
+        form = EditNoteForm(request.POST, instance=request.user)
         if form.is_valid():
             form.save()
             return redirect('lmn:note_detail', note_pk)
