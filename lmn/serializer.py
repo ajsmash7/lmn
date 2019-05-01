@@ -3,87 +3,33 @@ from django.contrib.auth.models import User
 from .models import Artist, Venue, Show, Note
 
 
-class ArtistSerializer(serializers.Serializer):
-    id = serializers.IntegerField(read_only=True)
-    name = serializers.CharField(required=True, allow_blank=False, max_length=200)
+class ArtistSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Artist
-
-    def create(self, validated_data):
-        """
-        Create and return a new Artist instance with the validated data.
-        """
-        return Artist.objects.create(**validated_data)
-
-    def update(self, instance, validated_data):
-        """
-        Update and return current Artist instance with data, if existing.
-        """
-        instance.name = validated_data.get('name', instance.name)
-        instance.save()
-        return instance
+        fields = '__all__'
 
 
-class VenueSerializer(serializers.Serializer):
-    id = serializers.IntegerField(read_only=True)
-    name = serializers.CharField(max_length=200, allow_blank=False, required=True)
-    city = serializers.CharField(max_length=200, allow_blank=False)
-    state = serializers.CharField(max_length=2, allow_blank=False)
+class VenueSerializer(serializers.ModelSerializer):
+
 
     class Meta:
         model = Venue
+        fields = '__all__'
+
+
+
+class ShowSerializer(serializers.ModelSerializer):
+    artist = ArtistSerializer()
+    venue = VenueSerializer()
 
     def create(self, validated_data):
-        """
-        Create and return a new Venue instance with the validated data.
-        """
-        return Venue.objects.create(**validated_data)
-
-    def update(self, instance, validated_data):
-        """
-        Update and return current Venue instance with data, if existing.
-        """
-        instance.name = validated_data.get('name', instance.name)
-        instance.city = validated_data.get('city', instance.city)
-        instance.state = validated_data.get('state', instance.state)
-        instance.save()
-        return instance
-
-
-class ShowSerializer(serializers.Serializer):
-    show_id = serializers.CharField(max_length=200, allow_blank=False)
-    show_date = serializers.DateTimeField()
-    artist = serializers.PrimaryKeyRelatedField(many=True, queryset=Artist.objects.all())
-    venue = serializers.PrimaryKeyRelatedField(many=True, queryset=Venue.objects.all())
+        venue = Venue(name=validated_data['venue']['name'], city=validated_data['venue']['city'], state=validated_data['venue']['state'])
+        artist = Artist(name=validated_data['artist']['name'])
+        show = Show(show_id=validated_data['show_id'], show_date=validated_data['show_date'], artist=artist, venue=venue)
+        return show
 
     class Meta:
         model = Show
-
-
-    def create(self, validated_data):
-        """
-        Create and return a new Venue instance with the validated data.
-        """
-        return Show.objects.create(**validated_data)
-
-    def update(self, instance: Show, validated_data):
-        """
-        Update and return current Show instance with data, if existing.
-        :type instance: Show
-        """
-        instance.artist = validated_data.get('artist', instance.artist)
-        instance.venue = validated_data.get('venue', instance.venue)
-        instance.city = validated_data.get('city', instance.city)
-        instance.state = validated_data.get('state', instance.state)
-        instance.save()
-        return instance
-
-
-class UserSerializer(serializers.ModelSerializer):
-    user_notes = serializers.PrimaryKeyRelatedField(many=True, queryset=Note.objects.all())
-
-    class Meta:
-        model = User
-        fields = ('id', 'username', 'user_notes')
+        fields = '__all__'
 

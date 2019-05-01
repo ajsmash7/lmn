@@ -117,14 +117,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Rest Framework initialization
 REST_FRAMEWORK = {
     # allow read only access for unauthorized users
-    'DEFAULT_AUTHENTIFICATION_CLASSES': [
-        'rest_framework.authentication.BasicAuthentication=[]',
-        'rest_framework.authentication.SessionAuthentication=[]',
-    ],
-    'DEFAULT_RENDERER_CLASSES': [
-        'rest_framework.renderers.BrowsableAPIRenderer',
-        'rest_framework.renderers.JSONRenderer',
-    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [],
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
     ]
