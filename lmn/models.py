@@ -1,5 +1,9 @@
 from django.db import models
+from django.conf import settings
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from django.contrib.auth.models import User
+from rest_framework.authtoken.models import Token
 import datetime
 
 # Every model gets a primary key field by default.
@@ -15,6 +19,14 @@ User._meta.get_field('email')._blank = False
 User._meta.get_field('last_name')._blank = False
 User._meta.get_field('first_name')._blank = False
 
+# Create user authentication tokens
+# @receiver(post_save, sender=settings.AUTH_USER_MODEL)
+# def create_auth_token(sender, instance=None, created=False, **kwargs):
+#     if created:
+#         Token.objects.create(user=instance)
+#
+# for user in User.objects.all():
+#     Token.objects.get_or_create(user=user)
 
 ''' A music artist '''
 class Artist(models.Model):
@@ -38,8 +50,8 @@ class Venue(models.Model):
 class Show(models.Model):
     show_id = models.CharField(max_length=200, blank=False, unique=True)
     show_date = models.DateTimeField(blank=False)
-    artist = models.ForeignKey(Artist, on_delete=models.CASCADE)
-    venue = models.ForeignKey(Venue, on_delete=models.CASCADE)
+    artist = models.ForeignKey(Artist, related_name='show_headliner', on_delete=models.CASCADE)
+    venue = models.ForeignKey(Venue, related_name='show_venue', on_delete=models.CASCADE)
 
     def __str__(self):
         return 'Show with artist {} at {} on {}'.format(self.artist, self.venue, self.show_date)
