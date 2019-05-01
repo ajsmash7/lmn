@@ -482,6 +482,17 @@ class TestUserAuthentication(TestCase):
         self.assertContains(response, 'sam12345')  # Homepage has user's name on it
 
 
+class TestTweetLink(TestCase):
+
+    def test_tweet_length_too_long(self):
+        tested_tweet_length = 
+
+        Twitter_Char_Count = 140
+
+        if tested_tweet_length > Twitter_Char_Count:
+            
+
+
 class TestAppAPI(APITestCase):
     """Testing suite for api views"""
 
@@ -493,4 +504,5 @@ class TestAppAPI(APITestCase):
                      'venue': {'name': 'First Avenue', 'city': 'Minneapolis', 'state': 'MN'}})
         # assert that the status is 201 created
         assert response.status_code == 201
+
 

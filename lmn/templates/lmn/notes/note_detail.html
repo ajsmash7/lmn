@@ -8,6 +8,11 @@
 
 <p id="note_text">{{ note.text }}</p>
 
+<div class="social-share">
+  <a href="{{ facebook_url }}" target="_blank">{{link_text}}</a>
+  <a href="{{ tweet_url }}" class="meta-act-link meta-tweet" target="_blank">{{link_text}}</a>
+</div>
+
 
     {% if note %}
 
