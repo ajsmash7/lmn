@@ -1,7 +1,7 @@
 from django.test import TestCase
-
 from django.contrib.auth.models import User
-from lmn.forms import NewNoteForm, UserRegistrationForm
+
+from lmn.forms import NewNoteForm, UserRegistrationForm, EditProfileForm, EditNoteForm
 import string
 
 # Test that forms are validating correctly, and don't accept invalid data
@@ -100,7 +100,7 @@ class RegistrationFormTests(TestCase):
         bob.save()
 
         # attempt to create another user with same username
-        form_data = { 'username' : 'bob' , 'email' : 'another_bob@bob.com', 'first_name' : 'bob', 'last_name' : 'whatever', 'password1' : 'q!w$er^ty6ui7op', 'password2' : 'q!w$er^ty6ui7op' }
+        form_data = {'username' : 'bob' , 'email' : 'another_bob@bob.com', 'first_name' : 'bob', 'last_name' : 'whatever', 'password1' : 'q!w$er^ty6ui7op', 'password2' : 'q!w$er^ty6ui7op' }
         form = UserRegistrationForm(form_data)
         self.assertFalse(form.is_valid())
 
@@ -131,7 +131,7 @@ class RegistrationFormTests(TestCase):
         invalid_email = ['BOB@bOb.com', 'BOb@bob.cOm', 'Bob@bob.coM', 'BOB@BOB.COM', 'bOb@bob.com', 'boB@bob.com']
 
         for invalid in invalid_email:
-            # attempt to create another user with same username
+            # attempt to create another user with same email
             form_data = { 'username' : 'another_bob' , 'email' : invalid, 'first_name' : 'bob', 'last_name' : 'whatever', 'password1' : 'q!w$er^ty6ui7op', 'password2' : 'q!w$er^ty6ui7op' }
             form = UserRegistrationForm(form_data)
             self.assertFalse(form.is_valid())
@@ -151,3 +151,43 @@ class LoginFormTests(TestCase):
 
     def test_login_valid_username_password_ok(self):
         bob = User()
+
+
+class EditProfileFormTests(TestCase):
+
+    def test_user_can_change_profile_data(self):
+        aj = User(username='AJTesting', email='aj@testing.com', first_name='AJ', last_name='TestTest')
+        aj.save()
+        form_data = { 'username' : 'AJTesting' , 'email' : 'aj@testing.com', 'first_name' : 'AJ', 'last_name' : 'NEWLastName'}
+        form = EditProfileForm(form_data)
+        self.assertTrue(form.is_valid())
+
+    def test_user_edit_profile_invalid_data(self):
+        # Create test user
+        aj = User(username='AJTesting', email='aj@testing.com', first_name='AJ', last_name='TestTest')
+        aj.save()
+        # create a second test user
+        new_aj = User(username='AJTest2', email='aj2@testing.com', first_name='AJ', last_name='NumberTwo')
+        new_aj.save()
+        # try to edit the profile form to an email that already exists
+        form_data = {'username': 'AJTest2', 'email': 'aj@testing.com', 'first_name': 'AJ', 'last_name': 'NumberTwo'}
+        form = EditProfileForm(form_data)
+        self.assertFalse(form.is_valid())
+
+
+class EditNoteFormTests(TestCase):
+
+    # test that a user can edit their own notes
+    def test_user_can_edit_notes(self):
+        # create test note, then edit the note with edit note form
+        # if note form is valid, test should pass
+        form_data = {'title': 'a', 'text': 'random note'}
+        form = NewNoteForm(form_data)
+        edit_form_data = {'note_pk': form.note_pk, 'title': 'Better Note Title', 'text': 'random note'}
+        edit_form = EditNoteForm(edit_form_data)
+        self.assertTrue(edit_form.is_valid())
+
+
+
+
+
