@@ -15,6 +15,8 @@ def homepage(request):
 
     return render(request, 'lmn/home.html')
 
+# I ATTEMPTED TO WRITE IN THE EXTERNAL EVENTFUL API IN THE LOCAL FILE
+
 #baseURL = ('http://api.eventful.com/json/events/search?app_key='+ api_key + '&q=music&location=Minneapolis')
 
 #@api_view(['GET', 'POST'])
