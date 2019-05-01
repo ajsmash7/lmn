@@ -95,10 +95,13 @@ def edit_note_detail(request, note_pk):
 
 register = template.Library()
 
-TWITTER_ENDPOINT = 'https://twitter.com/intent/tweet?text=%s'
-FACEBOOK_ENDPOINT = 'https://www.facebook.com/sharer/sharer.php?u=%s'
+register = template.Library()
+
+Twitter_Tweet_Link = 'https://twitter.com/intent/tweet?text=%s'
+Facebook_Post_Link = 'https://www.facebook.com/sharer/sharer.php?u=%s'
 
 BITLY_REGEX = re.compile(r'^https?://bit\.ly/')
+
 
 def compile_text(context, text):
     ctx = template.context.Context(context)
@@ -124,16 +127,16 @@ def _build_url(request, obj_or_url):
 
 
 def _compose_tweet(text, url=None):
-    TWITTER_MAX_NUMBER_OF_CHARACTERS = 140
-    TWITTER_LINK_LENGTH = 23  # "A URL of any length will be altered to 23 characters, even if the link itself is less than 23 characters long.
+    Twitter_Char_Count = 140
+    Tweet_Link_Length = 23  # "A URL of any length will be altered to 23 characters, even if the link itself is less than 23 characters long.
 
     # Compute length of the tweet
-    url_length = len(' ') + TWITTER_LINK_LENGTH if url else 0
+    url_length = len(' ') + Tweet_Link_Length if url else 0
     total_length = len(text) + url_length
 
-    # Check that the text respects the max number of characters for a tweet
-    if total_length > TWITTER_MAX_NUMBER_OF_CHARACTERS:
-        text = text[:(TWITTER_MAX_NUMBER_OF_CHARACTERS - url_length - 1)] + "…"  # len("…") == 1
+    # Makes sure tweet is proper length
+    if total_length > Twitter_Char_Count:
+        text = text[:(Twitter_Char_Count - url_length - 1)] + "…" 
     return "%s %s" % (text, url) if url else text
 
 
@@ -146,7 +149,7 @@ def post_to_twitter_url(context, text, obj_or_url=None):
     request = context['request']
     url = _build_url(request, obj_or_url)
     tweet = _compose_tweet(text, url)
-    context['tweet_url'] = TWITTER_ENDPOINT % urlencode(tweet)
+    context['tweet_url'] = Twitter_Tweet_Link % urlencode(tweet)
     return context
 
 
@@ -165,7 +168,7 @@ def post_to_twitter(context, text, obj_or_url=None, link_text='Post to Twitter')
 def post_to_facebook_url(context, obj_or_url=None):
     request = context['request']
     url = _build_url(request, obj_or_url)
-    context['facebook_url'] = FACEBOOK_ENDPOINT % urlencode(url)
+    context['facebook_url'] = Facebook_Post_Link % urlencode(url)
     return context
 
 

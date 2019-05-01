@@ -473,3 +473,13 @@ class TestUserAuthentication(TestCase):
 
         self.assertRedirects(response, reverse('lmn:homepage'))   # FIXME Fix code to redirect to last page user was on before registration.
         self.assertContains(response, 'sam12345')  # Homepage has user's name on it
+
+class TestTweetLink(TestCase):
+
+    def test_tweet_length_too_long(self):
+        tested_tweet_length = 
+
+        Twitter_Char_Count = 140
+
+        if tested_tweet_length > Twitter_Char_Count:
+            

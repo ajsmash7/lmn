@@ -134,6 +134,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+MEDIA_URL = 'http://damp-lowlands-66132-pics.s3-website.us-east-2.amazonaws.com'
 
 # Where to send user after successful login if no other page is provided.
 # Should provide the user object.
