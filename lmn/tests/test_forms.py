@@ -154,7 +154,9 @@ class LoginFormTests(TestCase):
 
 
 class EditProfileFormTests(TestCase):
+    """Edit Profile Form Tests"""
 
+    # test that the user can change their profile
     def test_user_can_change_profile_data(self):
         aj = User(username='AJTesting', email='aj@testing.com', first_name='AJ', last_name='TestTest')
         aj.save()
@@ -162,6 +164,7 @@ class EditProfileFormTests(TestCase):
         form = EditProfileForm(form_data)
         self.assertTrue(form.is_valid())
 
+    # test that edit profile does not accept invalid data, in this case that the user cannot change their email to one that exists
     def test_user_edit_profile_invalid_data(self):
         # Create test user
         aj = User(username='AJTesting', email='aj@testing.com', first_name='AJ', last_name='TestTest')
@@ -176,6 +179,7 @@ class EditProfileFormTests(TestCase):
 
 
 class EditNoteFormTests(TestCase):
+    """Test that User can change notes"""
 
     # test that a user can edit their own notes
     def test_user_can_edit_notes(self):

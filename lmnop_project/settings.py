@@ -117,7 +117,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# Rest Framework initialization
+# Rest Framework initialization, set authentication and permission classes
 REST_FRAMEWORK = {
     # allow read only access for unauthorized users
     'DEFAULT_AUTHENTICATION_CLASSES': [],

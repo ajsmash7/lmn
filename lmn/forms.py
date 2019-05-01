@@ -19,29 +19,35 @@ class NewNoteForm(forms.ModelForm):
         model = Note
         fields = ('title', 'text')
 
-
+# To edit notes, extend User Change Form into class Edit Note Form
 class EditNoteForm(UserChangeForm):
 
-
+    # use Note Meta data and meta fields
     class Meta:
         model = Note
         fields = ('title', 'text')
 
+    # save the editable fields, and commit the changes
     def save(self, commit=True):
         note = super(EditNoteForm, self).save(commit=False)
         note.title = self.cleaned_data['title']
         note.text = self.cleaned_data['text']
 
+        # if commit doesn't throw an error, save the note
         if commit:
             note.save()
 
-
+# extend the User Change Form to Edit the User Profile
 class EditProfileForm(UserChangeForm):
 
+    # use the User model meta data
     class Meta:
         model = User
         fields = ('username', 'first_name', 'last_name', 'email', 'password')
 
+    # save the editable changes for self.super User, for fields allowed to be edited. Notice password is excluded due
+    # to Django password requirements
+    # commit the changes to the form template
     def save(self, commit=True):
         user = super(EditProfileForm, self).save(commit=False)
         user.username = self.cleaned_data['username']

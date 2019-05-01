@@ -45,7 +45,7 @@ class TestUser(TestCase):
             user2.save()
 
 class TestArtist(TestCase):
-
+    """Test that database can accept Artists, and fails with duplicates"""
     def test_can_add_Artist(self):
         artist = Artist(name='Tom Petty')
         artist.save()
@@ -60,7 +60,7 @@ class TestArtist(TestCase):
 
 
 class TestVenue(TestCase):
-
+    """Test that Venue can be added to database, and fails on duplicate"""
     def test_can_add_venue(self):
         venue = Venue(name='First Avenue', city='Minneapolis', state='MN')
         venue.save()
@@ -75,7 +75,7 @@ class TestVenue(TestCase):
             venue2.save()
 
 class TestShow(TestCase):
-
+    """Test that show can be added to database"""
     def test_can_add_show(self):
         # add a venue, then an artist, then create a show. compare to dictionary data
         venue = Venue(name='First Avenue', city='Minneapolis', state='MN')

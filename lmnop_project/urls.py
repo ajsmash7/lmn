@@ -23,6 +23,7 @@ from lmn.routers import router
 
 
 
+# in project urls, path to api routed urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),    #Admin site
